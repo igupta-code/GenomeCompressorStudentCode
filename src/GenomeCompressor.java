@@ -16,6 +16,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  *  @author Zach Blick
+ *  Isha Gupta
  */
 public class GenomeCompressor {
 
@@ -26,7 +27,7 @@ public class GenomeCompressor {
     public static void compress() {
         int[] map = new int['T' + 1];
         map['A'] = 0b00;
-        map['B'] = 0b01;
+        map['C'] = 0b01;
         map['G'] = 0b10;
         map['T'] = 0b11;
 
@@ -48,19 +49,21 @@ public class GenomeCompressor {
      * Reads a binary sequence from standard input; expands and writes the results to standard output.
      */
     public static void expand() {
+        // New map flips indices/values bc you're reading in inverse order from compressed file
         char[] map = new char[4];
         map[0] = 'A';
         map[1] = 'C';
         map[2] = 'G';
         map[3] = 'T';
 
+        // Read in file-header to know size of file (used in for loop)
         int size = BinaryStdIn.readInt();
 
         for(int i = 0; i < size; i++){
+            // Read in characters from compressed file and print to out file
             char c = map[BinaryStdIn.readInt(2)];
             BinaryStdOut.write(c);
         }
-
         BinaryStdOut.close();
     }
 
@@ -72,7 +75,6 @@ public class GenomeCompressor {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-
         if      (args[0].equals("-")) compress();
         else if (args[0].equals("+")) expand();
         else throw new IllegalArgumentException("Illegal command line argument");
